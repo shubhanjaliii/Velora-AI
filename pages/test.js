@@ -1,4 +1,5 @@
 // pages/test.js
+// CHANGED: Restyled form elements to match rose-blush theme; preserved logic and state
 import { useState } from "react";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
@@ -71,7 +72,7 @@ export default function TestPage(){
           {/* PERSONAL */}
           <div className={styles.field}>
             <label className={styles.labelText}>Name</label>
-            <input className={styles.input} value={form.name} onChange={(e)=>handleChange("name", e.target.value)} placeholder="Your name" />
+            <input className={styles.input} value={form.name} onChange={(e)=>handleChange("name", e.target.value)} placeholder="Your name" aria-label="Your name" />
           </div>
 
           <div style={{ display:'grid', gridTemplateColumns: '1fr 1fr', gap:12 }}>
@@ -106,7 +107,7 @@ export default function TestPage(){
             <div className={styles.checkboxGroup}>
               {OPTIONS.skinConcerns.map(c => (
                 <label className={styles.checkboxItem} key={c}>
-                  <input type="checkbox" className={styles.checkboxInput} checked={form.skinConcerns.includes(c)} onChange={()=>toggleArray("skinConcerns", c)} />
+                  <input type="checkbox" className={styles.checkboxInput} checked={form.skinConcerns.includes(c)} onChange={()=>toggleArray("skinConcerns", c)} aria-label={c} />
                   <span className={styles.checkboxLabel}>{c}</span>
                 </label>
               ))}
@@ -188,22 +189,22 @@ export default function TestPage(){
             <div className={styles.field}>
               <label className={styles.labelText}>Do you cleanse?</label>
               <div style={{ display:"flex", gap:12 }}>
-                {["Yes","No"].map(opt=> (
-                  <label key={opt}>
-                    <input type="radio" name="cleanse" checked={form.cleanse===opt} onChange={()=>handleChange("cleanse", opt)} /> {opt}
+                { ["Yes","No"].map(opt=> (
+                  <label key={opt} style={{ display:'flex', alignItems:'center', gap:8 }}>
+                    <input type="radio" name="cleanse" checked={form.cleanse===opt} onChange={()=>handleChange("cleanse", opt)} /> <span>{opt}</span>
                   </label>
-                ))}
+                )) }
               </div>
             </div>
 
             <div className={styles.field}>
               <label className={styles.labelText}>Do you exfoliate?</label>
               <div style={{ display:"flex", gap:12 }}>
-                {["Yes","No"].map(opt=> (
-                  <label key={opt}>
-                    <input type="radio" name="exfoliate" checked={form.exfoliate===opt} onChange={()=>handleChange("exfoliate", opt)} /> {opt}
+                { ["Yes","No"].map(opt=> (
+                  <label key={opt} style={{ display:'flex', alignItems:'center', gap:8 }}>
+                    <input type="radio" name="exfoliate" checked={form.exfoliate===opt} onChange={()=>handleChange("exfoliate", opt)} /> <span>{opt}</span>
                   </label>
-                ))}
+                )) }
               </div>
             </div>
 
@@ -225,7 +226,7 @@ export default function TestPage(){
             <div className={styles.field}>
               <label className={styles.labelText}>Any known allergies?</label>
               <div style={{ display:"flex", gap:12 }}>
-                {["No","Yes"].map(opt=> <label key={opt}><input type="radio" name="allergies" checked={form.allergiesKnown===opt} onChange={()=>handleChange("allergiesKnown", opt)} /> {opt}</label>)}
+                { ["No","Yes"].map(opt=> <label key={opt}><input type="radio" name="allergies" checked={form.allergiesKnown===opt} onChange={()=>handleChange("allergiesKnown", opt)} /> {opt}</label>) }
               </div>
               {form.allergiesKnown==="Yes" && <input className={styles.input} placeholder="Specify allergies" value={form.allergiesDetails} onChange={e=>handleChange("allergiesDetails", e.target.value)} />}
             </div>
@@ -233,7 +234,7 @@ export default function TestPage(){
             <div className={styles.field}>
               <label className={styles.labelText}>Any diagnosed skin conditions?</label>
               <div style={{ display:"flex", gap:12 }}>
-                {["No","Yes"].map(opt=> <label key={opt}><input type="radio" name="cond" checked={form.knownConditions===opt} onChange={()=>handleChange("knownConditions", opt)} /> {opt}</label>)}
+                { ["No","Yes"].map(opt=> <label key={opt}><input type="radio" name="cond" checked={form.knownConditions===opt} onChange={()=>handleChange("knownConditions", opt)} /> {opt}</label>) }
               </div>
               {form.knownConditions==="Yes" && <input className={styles.input} placeholder="Specify condition" value={form.knownConditionsDetails} onChange={e=>handleChange("knownConditionsDetails", e.target.value)} />}
             </div>

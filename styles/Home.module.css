@@ -1,5 +1,7 @@
 /* styles/Home.module.css - module-scoped */
 
+/* CHANGED: hero layout, visual, scanner overlay, features grid, and form/button styles */
+
 /* HERO / BANNER */
 .hero {
   width: 100%;
@@ -28,8 +30,8 @@
 .brand {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
-  font-size: 34px;
-  letter-spacing: 2px;
+  font-size: 48px;
+  letter-spacing: 1px;
   color: var(--text);
   margin: 0 0 8px 0;
 }
@@ -44,7 +46,7 @@
 
 .heroHeadline {
   font-family: 'Playfair Display', serif;
-  font-size: 44px;
+  font-size: 48px;
   line-height: 1.02;
   margin: 10px 0 16px 0;
   color: #222;
@@ -68,26 +70,29 @@
 }
 
 .ctaPrimary {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   border: none;
   color: white;
   padding: 14px 22px;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: 700;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 10px 30px rgba(217,150,170,0.15);
+  box-shadow: 0 12px 36px rgba(216,91,132,0.18);
   transition: transform .16s ease, box-shadow .16s ease;
 }
 
-.ctaPrimary:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(217,150,170,0.18); }
+.ctaPrimary:hover { transform: translateY(-4px); box-shadow: 0 22px 48px rgba(216,91,132,0.20); }
 
 .ctaGhost {
   background: transparent;
-  border: 1px solid #efe0e7;
+  border: 1px solid rgba(217,150,170,0.22);
   color: var(--text);
   padding: 12px 18px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
@@ -110,20 +115,93 @@
   gap:10px;
   align-items:center;
   overflow:hidden;
+  position: relative;
 }
 
-/* small rating badge */
-.rating {
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
+.promoImageWrap {
+  width: 100%;
+  max-width: 220px;
+  height: 220px;
   border-radius: 12px;
-  background: white;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  font-weight:600;
-  color: var(--text);
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(180deg,#FFEAF0,#FFF);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
+.promoImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* CHANGED: scanner overlay */
+.scannerOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0) 100%);
+  animation: scanner 3.6s linear infinite;
+}
+
+@keyframes scanner {
+  0% { transform: translateX(-120%); }
+  50% { transform: translateX(120%); }
+  100% { transform: translateX(240%); }
+}
+
+/* Respect reduced motion users */
+@media (prefers-reduced-motion: reduce) {
+  .scannerOverlay { animation: none; opacity: 0.45; }
+}
+
+/* Features grid */
+.featuresSection {
+  padding: 36px 20px;
+}
+
+.featuresGrid {
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: start;
+  margin-top: 18px;
+}
+
+.featureItem {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 8px 28px rgba(20,20,20,0.04);
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.featureIcon {
+  width:52px;
+  height:52px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(233,151,175,0.12), rgba(233,151,175,0.06));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  color:var(--accent-2);
+  font-family: 'Playfair Display', serif;
+}
+
+.featureContent h3 { margin:0 0 6px 0; font-family: 'Playfair Display', serif; font-size: 18px; }
+.featureContent p { margin:0; color:var(--muted); font-size: 14px; }
 
 /* TEST PAGE CARD wrapper (we'll reuse) */
 .testWrapper {
@@ -143,7 +221,7 @@
   padding: 28px;
 }
 
-/* form fields reuse the Canva look */
+/* form fields reuse the Canva look - UPDATED for rounded inputs, soft borders, rose focus */
 .field {
   margin-bottom: 14px;
   display: flex;
@@ -164,13 +242,13 @@
   border: 1px solid #efe8ee;
   background: #fff;
   outline: none;
-  transition: box-shadow .12s ease, border-color .12s ease;
+  transition: box-shadow .12s ease, border-color .12s ease, transform .08s ease;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
 }
 
 .input:focus, .select:focus, .textarea:focus {
-  box-shadow: 0 8px 24px rgba(217,150,170,0.08);
+  box-shadow: 0 10px 30px rgba(216,91,132,0.10);
   border-color: var(--accent-2);
 }
 
@@ -185,10 +263,14 @@
   display:flex;
   align-items:center;
   gap:8px;
-  padding:6px 10px;
-  border-radius:10px;
+  padding:8px 12px;
+  border-radius:14px;
   background: #fff;
-  border: 1px solid #f2e9ef;
+  border: 1px solid #f6eff3;
+}
+
+.checkboxItem input[type="checkbox"], .checkboxItem input[type="radio"] {
+  width: 16px; height: 16px; accent-color: var(--accent-2);
 }
 
 /* primary button in test card */
@@ -202,15 +284,17 @@
   cursor:pointer;
   width:100%;
   font-family: 'Inter', sans-serif;
+  transition: transform .14s ease, box-shadow .14s ease;
 }
+.buttonPrimary:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(216,91,132,0.16); }
 
 /* result box */
 .result {
   margin-top: 18px;
   border-radius: 10px;
   padding: 12px;
-  background: linear-gradient(180deg,#FBFFF8,#F7FFF1);
-  border: 1px solid #E6F3E8;
+  background: linear-gradient(180deg,#FFF8FA,#FFF4F6);
+  border: 1px solid #F3E6EA;
 }
 
 /* responsive rules */
@@ -219,4 +303,8 @@
   .heroVisual { order: -1; margin-bottom: 18px; }
   .heroHeadline { font-size: 32px; }
   .heroTitle { font-size: 20px; }
+  .featuresGrid { grid-template-columns: 1fr; }
+  .promoImageWrap { height: 160px; }
+  .brand { font-size: 36px; }
+  .ctaPrimary, .ctaGhost { width: 100%; }
 }
