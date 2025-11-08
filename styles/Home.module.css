@@ -1,0 +1,222 @@
+/* styles/Home.module.css - module-scoped */
+
+/* HERO / BANNER */
+.hero {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 20px;
+  box-sizing: border-box;
+  background: linear-gradient(90deg, rgba(255,240,244,0.9) 0%, rgba(255,245,246,0.95) 40%, rgba(255,255,255,1) 100%);
+}
+
+.heroInner {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 520px;
+  gap: 32px;
+  align-items: center;
+}
+
+/* left content */
+.heroContent {
+  padding: 12px 8px;
+}
+
+.brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: 2px;
+  color: var(--text);
+  margin: 0 0 8px 0;
+}
+
+.heroTag {
+  margin: 6px 0 18px 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}
+
+.heroHeadline {
+  font-family: 'Playfair Display', serif;
+  font-size: 44px;
+  line-height: 1.02;
+  margin: 10px 0 16px 0;
+  color: #222;
+  font-weight: 700;
+}
+
+.heroSub {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 60ch;
+  margin-bottom: 18px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* CTA group */
+.heroCTAs {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-top: 6px;
+}
+
+.ctaPrimary {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border: none;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 10px 30px rgba(217,150,170,0.15);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.ctaPrimary:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(217,150,170,0.18); }
+
+.ctaGhost {
+  background: transparent;
+  border: 1px solid #efe0e7;
+  color: var(--text);
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+/* right visual (image / hero card) */
+.heroVisual {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.promoCard {
+  width:100%;
+  border-radius: 16px;
+  padding: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8));
+  box-shadow: 0 15px 40px rgba(20,20,20,0.06);
+  display:flex;
+  gap:10px;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* small rating badge */
+.rating {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  font-weight:600;
+  color: var(--text);
+}
+
+/* TEST PAGE CARD wrapper (we'll reuse) */
+.testWrapper {
+  width:100%;
+  display:flex;
+  justify-content:center;
+  padding: 36px 20px;
+  box-sizing:border-box;
+}
+
+.testCard {
+  width:100%;
+  max-width:1000px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(20,20,20,0.06);
+  padding: 28px;
+}
+
+/* form fields reuse the Canva look */
+.field {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.labelText {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #efe8ee;
+  background: #fff;
+  outline: none;
+  transition: box-shadow .12s ease, border-color .12s ease;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  box-shadow: 0 8px 24px rgba(217,150,170,0.08);
+  border-color: var(--accent-2);
+}
+
+/* checkbox group similar look */
+.checkboxGroup {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.checkboxItem {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:10px;
+  background: #fff;
+  border: 1px solid #f2e9ef;
+}
+
+/* primary button in test card */
+.buttonPrimary {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: white;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: none;
+  font-weight:700;
+  cursor:pointer;
+  width:100%;
+  font-family: 'Inter', sans-serif;
+}
+
+/* result box */
+.result {
+  margin-top: 18px;
+  border-radius: 10px;
+  padding: 12px;
+  background: linear-gradient(180deg,#FBFFF8,#F7FFF1);
+  border: 1px solid #E6F3E8;
+}
+
+/* responsive rules */
+@media (max-width: 980px) {
+  .heroInner { grid-template-columns: 1fr; }
+  .heroVisual { order: -1; margin-bottom: 18px; }
+  .heroHeadline { font-size: 32px; }
+  .heroTitle { font-size: 20px; }
+}
