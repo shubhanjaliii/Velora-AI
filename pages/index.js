@@ -117,6 +117,41 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <section className={styles.stepsSection}>
+  <h2 className={styles.stepsTitle}>Your Personal Skin Analysis in Three Easy Steps</h2>
+
+  <div className={styles.stepsGrid}>
+    {/* Step 1 */}
+    <div className={styles.step}>
+      <div className={styles.number}>1</div>
+      <img src="/Photo1.png" alt="Step 1" className={styles.stepImage} />
+      <h3 className={styles.stepHeading}>Upload or Take a Selfie</h3>
+      <p className={styles.stepText}>
+        Complete your profile in less than a minute and let AI define your skincare priorities.
+      </p>
+    </div>
+
+    {/* Step 2 */}
+    <div className={styles.step}>
+      <div className={styles.number}>2</div>
+      <img src="/Photo2.png" alt="Step 2" className={styles.stepImage} />
+      <h3 className={styles.stepHeading}>Complete Your Analysis</h3>
+      <p className={styles.stepText}>
+        Our analysis technology scans your photo to reveal your skin’s strengths and target areas.
+      </p>
+    </div>
+
+    {/* Step 3 */}
+    <div className={styles.step}>
+      <div className={styles.number}>3</div>
+      <img src="/Photo3.png" alt="Step 3" className={styles.stepImage} />
+      <h3 className={styles.stepHeading}>Discover Your Routine</h3>
+      <p className={styles.stepText}>
+        Receive a personalized skincare routine designed for your unique skin profile.
+      </p>
+    </div>
+  </div>
+</section>
     </>
   );
 }
