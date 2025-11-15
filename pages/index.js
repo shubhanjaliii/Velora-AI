@@ -38,7 +38,7 @@ export default function Home() {
 
             <div className={styles.heroCTAs}>
               <Link href="/test" className={styles.ctaPrimary}>Take the Test</Link>
-              <a className={styles.ctaGhost} href="#features">Learn more</a>
+              <a href="#steps" className={styles.learnMoreBtn}>Learn more</a>
             </div>
 
             {/* promo rating (small) */}
@@ -85,7 +85,7 @@ export default function Home() {
       </section>
 
       {/* Features: 3-step */}
-      <section id="features" className={styles.featuresSection} aria-label="Three step features">
+      {/*<section id="features" className={styles.featuresSection} aria-label="Three step features">
         <div className="container-wide">
           <h2 className="h2" style={{ marginBottom: 6 }}>How it works</h2>
           <p className="p-muted">A simple 3-step flow to discover your skin profile and get a tailored routine.</p>
@@ -116,8 +116,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-      <section className={styles.stepsSection}>
+  </section>*/}
+      <section id="steps" className={styles.stepsSection}>
   <h2 className={styles.stepsTitle}>Your Personal Skin Analysis in Three Easy Steps</h2>
 
   <div className={styles.stepsGrid}>
