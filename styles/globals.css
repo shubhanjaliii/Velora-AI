@@ -2,9 +2,130 @@
    - Includes fonts, color vars, global resets, and utility classes.
    - Replace your existing globals.css with this file.
 */
+/* --- Classic dropdown (namespaced) --- */
+.classic-dropdown {
+  font-family: "Raleway", sans-serif;
+  color: #222;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-/* CHANGED: Added Google Fonts for Playfair Display (heading) and Inter (body) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap');
+.classic-dropdown nav {
+  margin: 0 auto;
+  margin-top: 0;
+  position: relative;
+  width: 100%;
+}
+
+.classic-dropdown nav h2 {
+  font-size: 1rem;
+  border-radius: 6px;
+  position: relative;
+  background: tomato;
+  height: 44px;
+  text-transform: uppercase;
+  margin: 0;
+  color: ivory;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  box-shadow: 4px 4px 20px -6px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+}
+
+/* caret/triangle on right */
+.classic-dropdown nav h2::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(255,255,255,0.9);
+  transform: translateY(-1px);
+  margin-left: 12px;
+}
+
+/* hover/focus */
+.classic-dropdown nav:hover h2,
+.classic-dropdown nav h2:focus {
+  transform: translateY(-2px);
+  box-shadow: 2px 6px 18px -8px rgba(0, 0, 0, 0.35);
+}
+
+/* the invisible checkbox equivalent (we use JS instead) */
+.classic-dropdown ul {
+  padding: 0;
+  margin: 10px 0 0 0;
+  background: transparent;
+  list-style: none;
+  overflow: hidden;
+  text-align: left;
+  transition: opacity 0.24s ease, transform 0.24s ease;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  z-index: 120;
+  pointer-events: none;
+  opacity: 0;
+  transform-origin: top center;
+  transform: translateY(-6px) scaleY(.98);
+}
+
+/* open state */
+.classic-dropdown ul.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scaleY(1);
+}
+
+/* items */
+.classic-dropdown ul li {
+  border-radius: 6px;
+  position: relative;
+  display: block;
+  line-height: 1.5;
+  width: 100%;
+  margin: 6px 0;
+  background: tomato;
+  padding: 10px 12px;
+  color: ivory;
+  font-weight: 400;
+  box-shadow: 2px 2px 10px -6px rgba(0, 0, 0, 0.35);
+  transition: background 0.22s, transform 0.12s;
+  cursor: pointer;
+}
+
+/* hover/focus for each item */
+.classic-dropdown ul li:hover,
+.classic-dropdown ul li:focus {
+  background: mediumorchid;
+  transform: translateY(-2px);
+  outline: none;
+}
+
+/* optional label above the dropdown */
+.classic-dropdown .label {
+  display:block;
+  margin-bottom:6px;
+  font-size:0.92rem;
+  color: #444;
+  font-weight:700;
+}
+
+/* small selected indicator */
+.classic-dropdown .selected-value {
+  display:inline-block;
+  color: ivory;
+  font-weight:700;
+  text-transform:none;
+}
+
+/* small container sizing helpers */
+.classic-dropdown.small nav h2 { height: 40px; padding: 0 10px; font-size: 0.95rem; }
 
 /* Color variables (rose / blush theme) */
 :root {
