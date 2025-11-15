@@ -151,7 +151,7 @@
 }
 
 /* Enable smooth scrolling by default but respect reduced-motion */
-html { scroll-behavior: smooth; }
+html, body { scroll-behavior: smooth; }
 
 /* Base reset + sensible defaults */
 *,

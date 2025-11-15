@@ -51,6 +51,29 @@ export default function TestPage() {
     commitIfFilled(key, value);
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setResult("Loading your personalized recommendations...");
+  
+    try {
+      const response = await fetch("/api/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formData: form }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.recommendation) {
+        setResult(data.recommendation);
+      } else {
+        setResult("Sorry, something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setResult("Error connecting to AI. Check console for details.");
+    }
+  }  
   function toggleArray(key, value) {
     setForm(prev => {
       const arr = Array.isArray(prev[key]) ? [...prev[key]] : [];
@@ -356,6 +379,21 @@ export default function TestPage() {
         <div className={styles.controls} style={{ display: 'flex', gap: 12, marginTop: 18, justifyContent: 'flex-end' }}>
           <button type="button" className={styles.btnSecondary} onClick={prev} disabled={stepIndex === 0 || submitted}>Previous</button>
 
+        {result && (
+  <div className={styles.result} style={{
+    marginTop: "30px",
+    padding: "20px",
+    backgroundColor: "#ffe9f3",
+    borderRadius: "12px",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+  }}>
+    <h3 style={{ color: "#b83280", fontFamily: "Playfair Display, serif" }}>
+      💡 Personalized Recommendations
+    </h3>
+    <p style={{ whiteSpace: "pre-line", lineHeight: "1.6" }}>{result}</p>
+  </div>
+)}
+      </div>
           {stepIndex < steps.length - 1 ? (
             <button type="button" className={styles.btnPrimary} onClick={next} disabled={submitted}>Next</button>
           ) : (
