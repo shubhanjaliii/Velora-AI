@@ -1,7 +1,7 @@
 // pages/test.js
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
-import styles from '../styles/Test.module.css';
+import styles from '../styles/Test.module.css'; // keep your module filename
 
 const OPTIONS = {
   gender: ['Female','Male','Non-binary','Prefer not to say'],
@@ -19,6 +19,7 @@ export default function TestPage() {
   const steps = ['About You', 'Skin', 'Lifestyle'];
   const [stepIndex, setStepIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [result, setResult] = useState(''); // result from API
 
   const [form, setForm] = useState({
     name: '',
@@ -40,40 +41,13 @@ export default function TestPage() {
     'sleep','water','stress','smoking','cleanse','exfoliate'
   ];
 
-  // committed keys (auto-updated when fields become non-empty)
   const [committed, setCommitted] = useState([]);
 
   function updateField(key, value) {
-    setForm(prev => {
-      const next = { ...prev, [key]: value };
-      return next;
-    });
+    setForm(prev => ({ ...prev, [key]: value }));
     commitIfFilled(key, value);
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setResult("Loading your personalized recommendations...");
-  
-    try {
-      const response = await fetch("/api/recommend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formData: form }),
-      });
-  
-      const data = await response.json();
-  
-      if (data.recommendation) {
-        setResult(data.recommendation);
-      } else {
-        setResult("Sorry, something went wrong. Please try again.");
-      }
-    } catch (error) {
-      console.error(error);
-      setResult("Error connecting to AI. Check console for details.");
-    }
-  }  
   function toggleArray(key, value) {
     setForm(prev => {
       const arr = Array.isArray(prev[key]) ? [...prev[key]] : [];
@@ -97,7 +71,7 @@ export default function TestPage() {
   }
 
   useEffect(() => {
-    // ensure committed stays in sync if user clears fields
+    // keep committed in sync with form values
     trackKeys.forEach(k => commitIfFilled(k));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
@@ -114,7 +88,6 @@ export default function TestPage() {
     return total > 0 ? Math.round((count / total) * 100) : 0;
   }, [committed, form]);
 
-  // step -> fields mapping
   const stepFields = {
     0: ['name', 'gender', 'ageBracket'],
     1: ['skinType', 'skinConcerns'],
@@ -122,7 +95,6 @@ export default function TestPage() {
   };
 
   function next() {
-    // commit visible step fields explicitly (they're auto-committed but this ensures)
     (stepFields[stepIndex] || []).forEach(k => commitIfFilled(k));
     if (stepIndex < steps.length - 1) setStepIndex(i => i + 1);
   }
@@ -130,19 +102,51 @@ export default function TestPage() {
   function prev() {
     if (stepIndex > 0) setStepIndex(i => i - 1);
   }
+async function handleSubmit(e) {
+  if (e && typeof e.preventDefault === "function") e.preventDefault();
 
-  function handleSubmit() {
-    // ensure everything is committed
-    trackKeys.forEach(k => commitIfFilled(k));
-    setSubmitted(true);
+  // commit fields etc...
+  trackKeys.forEach(k => commitIfFilled(k));
+  if (percent < 100) {
+    setResult("Please complete all sections before submitting.");
+    return;
   }
 
-  // allow navigating to previous steps and current step only (no forward jumping)
+  setSubmitted(true);
+  setResult("Loading your personalized recommendations...");
+
+  try {
+    const response = await fetch("/api/recommend", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ formData: form }),
+    });
+
+    // try to read JSON body for detailed error info
+    const body = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      // show server-provided error message if available
+      const msg = (body && (body.error || body.detail)) || `Server returned ${response.status}`;
+      setResult(`Error: ${msg}`);
+      return;
+    }
+
+    if (body && body.recommendation) {
+      setResult(body.recommendation);
+    } else {
+      setResult("Sorry, unexpected response format from server.");
+    }
+  } catch (err) {
+    console.error("Client submit error:", err);
+    setResult("Network or client error. Check console for details.");
+    setSubmitted(false);
+  }
+}
+  // stepper click / key handlers (prevent jumping forwards)
   function handleStepClick(i) {
     if (i <= stepIndex) setStepIndex(i);
-    // otherwise ignore clicks to future steps
   }
-
   function handleStepKeyDown(e, i) {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -364,36 +368,12 @@ export default function TestPage() {
               </div>
             </div>
           )}
-
-          {submitted && (
-            <div style={{ marginTop: 16 }}>
-              <h3 style={{ fontFamily: 'Playfair Display, serif' }}>Final answers</h3>
-              <div className={styles.summaryBox} style={{ marginTop: 12 }}>
-                <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{JSON.stringify(form, null, 2)}</pre>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Controls */}
         <div className={styles.controls} style={{ display: 'flex', gap: 12, marginTop: 18, justifyContent: 'flex-end' }}>
           <button type="button" className={styles.btnSecondary} onClick={prev} disabled={stepIndex === 0 || submitted}>Previous</button>
 
-        {result && (
-  <div className={styles.result} style={{
-    marginTop: "30px",
-    padding: "20px",
-    backgroundColor: "#ffe9f3",
-    borderRadius: "12px",
-    boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
-  }}>
-    <h3 style={{ color: "#b83280", fontFamily: "Playfair Display, serif" }}>
-      💡 Personalized Recommendations
-    </h3>
-    <p style={{ whiteSpace: "pre-line", lineHeight: "1.6" }}>{result}</p>
-  </div>
-)}
-      </div>
           {stepIndex < steps.length - 1 ? (
             <button type="button" className={styles.btnPrimary} onClick={next} disabled={submitted}>Next</button>
           ) : (
@@ -407,6 +387,28 @@ export default function TestPage() {
             </button>
           )}
         </div>
+
+        {/* Result area (shown after submit or when there's a message) */}
+        {result && (
+          <div
+            className={styles.result}
+            style={{
+              marginTop: "30px",
+              padding: "20px",
+              backgroundColor: "#ffe9f3",
+              borderRadius: "12px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+            }}
+          >
+            <h3 style={{ color: "#b83280", fontFamily: "Playfair Display, serif", marginBottom: 12 }}>
+              💡 Personalized Recommendations
+            </h3>
+            <p style={{ whiteSpace: "pre-line", lineHeight: "1.6", margin: 0 }}>
+              {result}
+            </p>
+          </div>
+        )}
+
       </section>
     </main>
   );
